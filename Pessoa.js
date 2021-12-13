@@ -1,4 +1,5 @@
-class Pessoa {
+//Pessoa.js
+module.exports = class Pessoa {
   
   constructor(cpf, rg, nome, endereco, telefone) {
     if ( this . constructor === Pessoa ) {

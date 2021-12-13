@@ -31,6 +31,6 @@ module.exports = class Venda {
     }
 
     gerarPDFContrato(){
-        //waiting
+        //TODO
     }
 }

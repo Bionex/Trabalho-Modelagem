@@ -1,3 +1,5 @@
+const Pessoa = require("./Pessoa");
+
 //Funcionario.js
 module.exports = class Funcionario extends Pessoa{
     

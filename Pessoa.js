@@ -11,20 +11,20 @@ class Pessoa {
     this.telefone = telefone;
   }
 
-  alterarNome(nome)
-  {
-    throw new Error("Method 'alterarNome()' must be implemented.");
-  }
-  alterarEndereco(endereco)
-  {
-    throw new Error("Method 'alterarEndereco()' must be implemented.");
-  }
-  alterarTelefone(telefone)
-  {
-    throw new Error("Method 'alterarTelefone()' must be implemented.");
-  }
-  alterarCpf(cpf)
-  {
-    throw new Error("Method 'alterarCpf()' must be implemented.");
-  }
+    alterarNome(){
+        throw new Error("Method 'alterarNome()' must be implemented.");
+    }
+
+    alterarEndereco(){
+        throw new Error("Method 'alterarEndereco()' must be implemented.");
+    }
+    
+    alterarTelefone(){
+        throw new Error("Method 'alterarTelefone()' must be implemented.");
+    }
+    
+    alterarCpf()
+    {
+        throw new Error("Method 'alterarCpf()' must be implemented.");
+    }
 }

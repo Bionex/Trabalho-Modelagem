@@ -2,33 +2,36 @@
 module.exports = class Funcionario extends Pessoa{
     
     constructor(cpf, rg, nome, endereço, telefone, salario, data_contratação, senha) {
+        if(this.constructor == Funcionario)
+            throw new Error("Abstract classes can't be instantiated.");
+        
         this.super(cpf,rg,nome, endereço, telefone);
         this.salario = salario;
         this.data_contratação = data_contratação;
         this.senha = senha
     }
 
-   alterarDataHora(dt){
-        this.dataHora = dt
+    alterarNome(){
+        throw new Error("Method 'alterarNome()' must be implemented.");
     }
 
-    alterarValor(v){
-        this.valor = v
+    alterarEndereco(){
+        throw new Error("Method 'alterarEndereco()' must be implemented.");
     }
 
-    alterarDuracao(d){
-        this.duracao = d
+    alterarTelefone(){
+        throw new Error("Method 'alterarTelefone()' must be implemented.");
     }
 
-    alterarAtrasado(a){
-        this.atrasado = a
+    alterarCpf(){
+        throw new Error("Method 'alterarCpf()' must be implemented.");
     }
 
-    alterarStatus(s){
-        this.status = s
+    alterarSalario(){
+        throw new Error("Method 'alterarSalario()' must be implemented.")
     }
-
-    gerarPDFContrato(){
-        //waiting
+    
+    alterarSenha(){
+        throw new Error("Method 'alterarSenha()' must be implemented.")
     }
 }

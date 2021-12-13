@@ -1,10 +1,10 @@
-const Piloto = require("./Piloto");
-const Produto = require("./Produto");
-const Venda = require("./Venda");
-const Vendedor = require("./Vendedor");
-const Cliente = require("./Cliente");
-const Aeroporto = require("./Aeroporto");
-const Veiculo = require("./Veiculo");
+const Piloto = require("./modelo/Piloto");
+const Produto = require("./modelo/Produto");
+const Venda = require("./modelo/Venda");
+const Vendedor = require("./modelo/Vendedor");
+const Cliente = require("./modelo/Cliente");
+const Aeroporto = require("./modelo/Aeroporto");
+const Veiculo = require("./modelo/Veiculo");
 
 //Controle.js
 module.exports = class Controle {

@@ -1,7 +1,7 @@
-const Controle = require("./Controle");
-const Funcionario = require("./Funcionario");
-const Pessoa = require("./Pessoa");
-const Status = require("./Status");
+const Controle = require("./src/Controle");
+const Funcionario = require("./src/modelo/Funcionario");
+const Pessoa = require("./src/modelo/Pessoa");
+const Status = require("./src/modelo/Status");
 
 controle = new Controle()
 

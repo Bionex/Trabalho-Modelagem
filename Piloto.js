@@ -20,7 +20,7 @@ module.exports = class Piloto extends Funcionario{
         this.tel = tel
     }
 
-    alterarCpf(cpf){
+    verificarCpf(cpf){
         this.cpf = cpf
     }
 

@@ -19,8 +19,8 @@ module.exports = class Vendedor extends Funcionario{
         this.tel = tel
     }
 
-    alterarCpf(cpf){
-        this.cpf = cpf
+    verificarCpf(cpf){
+        //TODO
     }
 
     alterarSalario(salario){

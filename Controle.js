@@ -1,6 +1,14 @@
 //Controle.js
 module.exports = class Controle {
-    logar(cpf, senha)
+
+    constructor(
+    )
+
+
+    
+    logar(cpf, senha){
+
+    }
 
     adicionarVendedor(cpf, rg , nome, endereço, telefone, slario, data_contratação, senha){
 

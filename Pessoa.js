@@ -24,8 +24,8 @@ module.exports = class Pessoa {
         throw new Error("Method 'alterarTelefone()' must be implemented.");
     }
     
-    alterarCpf()
+    verificarCpf()
     {
-        throw new Error("Method 'alterarCpf()' must be implemented.");
+        throw new Error("Method 'verificarCpf()' must be implemented.");
     }
 }

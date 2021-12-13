@@ -1,11 +1,14 @@
 const Funcionario = require("./Funcionario");
+const Venda = require("./Venda");
 
 //Piloto.js
 module.exports = class Piloto extends Funcionario{
     
     constructor(cpf, rg, nome, endereço, telefone, salario, data_contratação, senha, breve) {
-        this.super(cpf,rg,nome, endereço, telefone, salario, data_contratação, senha);
+        super(cpf,rg,nome, endereço, telefone, salario, data_contratação, senha);
         this.breve = breve;
+
+        this.vendas = new Array()
     }
 
     alterarNome(nome){
@@ -21,7 +24,7 @@ module.exports = class Piloto extends Funcionario{
     }
 
     verificarCpf(cpf){
-        this.cpf = cpf
+        //TODO
     }
 
     alterarSalario(salario){
@@ -33,7 +36,7 @@ module.exports = class Piloto extends Funcionario{
     }
 
     adicionarVenda(venda){
-      // TODO
+      this.vendas.push(venda)
     }
 
     obterHorasVoadas(dataInicio, dataFim){

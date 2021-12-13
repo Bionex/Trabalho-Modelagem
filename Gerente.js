@@ -4,7 +4,7 @@ const Funcionario = require("./Funcionario");
 module.exports = class Gerente extends Funcionario{
     
     constructor(cpf, rg, nome, endereço, telefone, salario, data_contratação, senha) {
-        this.super(cpf,rg,nome, endereço, telefone, salario, data_contratação, senha);
+        super(cpf,rg,nome, endereço, telefone, salario, data_contratação, senha);
     }
 
     alterarNome(nome){

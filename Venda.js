@@ -1,13 +1,18 @@
 //Venda.js
 module.exports = class Venda {
     
-    constructor(protocolo, dataHora, valor, duracao, atrasado, status) {
+    constructor(protocolo, dataHora, valor, duracao, atrasado, status, produto, veiculo, origem , destino) {
         this.protocolo = protocolo;
         this.dataHora = dataHora;
         this.valor = valor;
         this.duracao = duracao;
         this.atrasado = atrasado;
         this.status = status
+        
+        this.produto = produto
+        this.veiculo = veiculo
+        this.origem = origem
+        this.destino = destino
     }
 
    alterarDataHora(dt){

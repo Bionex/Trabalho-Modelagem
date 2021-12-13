@@ -4,7 +4,8 @@ const Funcionario = require("./Funcionario");
 module.exports = class Vendedor extends Funcionario{
     
     constructor(cpf, rg, nome, endereço, telefone, salario, data_contratação, senha) {
-        this.super(cpf,rg,nome, endereço, telefone, salario, data_contratação, senha);
+        super(cpf,rg,nome, endereço, telefone, salario, data_contratação, senha);
+        this.vendas = new Array()
     }
 
     alterarNome(nome){
@@ -32,11 +33,10 @@ module.exports = class Vendedor extends Funcionario{
     }
 
     adicionarVenda(venda){
-        //TODO
+        this.vendas.push(venda)
     }
 
     obterQtdeVendas(){
-        //TODO
-        return qtDeVendas;
+        return this.vendas.length
     }
 }

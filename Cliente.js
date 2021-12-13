@@ -1,7 +1,12 @@
 //Cliente.js
-modules.exports = class Cliente extends Pessoa {
-    constructor(indicacao) {
+const Pessoa = require("./Pessoa");
+ 
+module.exports = class Cliente extends Pessoa {
+    constructor(cpf, rg, nome, endereco, telefone,indicacao) {
+        super(cpf, rg, nome, endereco, telefone)
         this.indicacao = indicacao;
+
+        this.vendas = new Array()
     }
 
     alterarNome(nome){
@@ -22,6 +27,6 @@ modules.exports = class Cliente extends Pessoa {
 
     adicionarVenda(venda)
     {
-        this.venda = venda;
+        this.vendas.push(venda)
     }
 }

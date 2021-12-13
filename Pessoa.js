@@ -3,7 +3,7 @@ module.exports = class Pessoa {
   
   constructor(cpf, rg, nome, endereco, telefone) {
     if ( this . constructor === Pessoa ) {
-      throw  new  Error ( "Não é possível instanciar a classe abstrata!" );
+      throw  new  Error ( "Abstract classes can't be instantiated." );
     }
     this.cpf = cpf;
     this.rg = rg;

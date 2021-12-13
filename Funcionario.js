@@ -4,10 +4,10 @@ const Pessoa = require("./Pessoa");
 module.exports = class Funcionario extends Pessoa{
     
     constructor(cpf, rg, nome, endereço, telefone, salario, data_contratação, senha) {
+        super(cpf,rg,nome, endereço, telefone);
         if(this.constructor == Funcionario)
             throw new Error("Abstract classes can't be instantiated.");
         
-        this.super(cpf,rg,nome, endereço, telefone);
         this.salario = salario;
         this.data_contratação = data_contratação;
         this.senha = senha

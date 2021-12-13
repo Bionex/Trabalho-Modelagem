@@ -1,5 +1,5 @@
 //Veiculo.js
-module.exports = class Venda {
+module.exports = class Veiculo{
     
     constructor(identificador, nome) {
         this.identificador = identificador;

@@ -3,14 +3,14 @@ module.exports = class Pessoa {
   
   constructor(cpf, rg, nome, endereco, telefone) {
     if ( this . constructor === Pessoa ) {
-      throw  new  Error ( "Abstract classes can't be instantiated." );
+        throw  new  Error ( "Abstract classes can't be instantiated." );
     }
-    this.cpf = cpf;
-    this.rg = rg;
-    this.nome = nome;
-    this.endereco = endereco;
-    this.telefone = telefone;
-  }
+        this.cpf = cpf;
+        this.rg = rg;
+        this.nome = nome;
+        this.endereco = endereco;
+        this.telefone = telefone;
+    }
 
     alterarNome(){
         throw new Error("Method 'alterarNome()' must be implemented.");

@@ -35,7 +35,6 @@ module.exports = class Controle {
     }
 
     adicionarVendedor(cpf, rg , nome, endereço, telefone, salario, data_contratação, senha){
-        console.log("entrei nessa caralha")
         var vendedor = new Vendedor(cpf, rg , nome , endereço, telefone, salario , data_contratação, senha)
         this.funcionarios.set(cpf, vendedor)
         
@@ -160,7 +159,7 @@ module.exports = class Controle {
 
     adicionarAeroporto(nome,cidade,estado){
         //TODO fix id
-        var aeroporto = new Aeroporto(this.idAeroporto , nome, cidade, estado);
+        var aeroporto = new Aeroporto(this.idAeroporto , nome, estado, cidade);
         this.aeroportos.set(this.idAeroporto, aeroporto)
         this.idAeroporto += 1
     }

@@ -1,4 +1,4 @@
-//Venda.js
+//Veiculo.js
 module.exports = class Venda {
     
     constructor(identificador, nome) {

@@ -96,9 +96,11 @@ export default class Controle {
         var venda = new Venda(this.protocolo, dataHora, valor, duracao,false, Status.AGUARDANDO, produto!, veiculo!, origem!, destino!, piloto);
 
         
+
         this.vendas.set(this.protocolo.toString(),venda);
         (this.login as Vendedor).adicionar(venda);
 
+        this.protocolo++;
         cpfsClientes.forEach(cpf => {
             var cliente = this.buscarCliente(cpf);
             if (cliente)
@@ -114,7 +116,8 @@ export default class Controle {
 
     adicionarVeiculo(nome:string){
         var veiculo = new Veiculo(this.idVeiculo.toString(), nome)
-        this.veiculos.set(this.idVeiculo.toString(), veiculo);       
+        this.veiculos.set(this.idVeiculo.toString(), veiculo);
+        this.idVeiculo++;  
     }
 
 

@@ -1,5 +1,6 @@
 import Funcionario from "./Funcionario"
 import Venda from "./Venda"
+import {isEqual} from "../Utils"
 
 //Piloto.js
 export default class Piloto extends Funcionario{
@@ -7,23 +8,30 @@ export default class Piloto extends Funcionario{
     vendas:Array<Venda>
 
 
-    constructor(cpf:string, rg:string, nome:string, endereço:string, telefone:string, salario:number, data_contratação:Date, senha:string, breve:string) {
-        super(cpf,rg,nome, endereço, telefone, salario, data_contratação, senha);
+    constructor(cpf:string, rg:string, nome:string,
+                endereço:string, telefone:string, salario:number,
+                dataContratação:Date, senha:string, breve:string) {
+        super(cpf,rg,nome, endereço, telefone, salario, dataContratação, senha);
         this.breve = breve;
 
         this.vendas = new Array()
     }
 
-    adicionar( v:Venda){
+    /**
+     * Persiste uma venda no piloto
+     * @param v 
+     */
+    adicionar(v: Venda){
       this.vendas.push(v)
     }
 
-    isDisponivel(ini: Date, fim: Date) : boolean{
-        var vendasFiltradas = this.vendas.filter(venda =>{
-            var data = venda.dataHora;
-            if(data >= ini && data <= fim)
-                return venda;
-        })
-        return vendasFiltradas.length == 0;
+    /**
+     * Verifica se o piloto está disponível em algum dia
+     * @param data 
+     * @returns boolean
+     */
+    isDisponivel(data: Date): boolean{
+        let v = this.vendas.find(v => isEqual(v.dataHora, data))
+        return v != undefined;
     }
 }

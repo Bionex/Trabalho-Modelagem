@@ -13,6 +13,10 @@ export default class Produto {
         this.vendas = new Array()
     }
 
+    /**
+     * Persiste uma venda no produto
+     * @param v venda
+     */
     adicionar(v:Venda){
         this.vendas.push(v)
     }

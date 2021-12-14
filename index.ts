@@ -15,7 +15,7 @@ controle.adicionarProduto("produto 1")
 var clientes:Array<string> = new Array;
 
 clientes.push("cpf-cliente1");
-controle.adicionarVenda(new Date(), "0", "1", 500, 3, 0, 0, clientes, "cpf-piloto1");
+controle.adicionarVenda(new Date(), 0, 1, 500, 3, 0, 0, clientes, "cpf-piloto1");
 
 
 var cliente = controle.buscarCliente("cpf-cliente1");

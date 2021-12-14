@@ -22,9 +22,7 @@ export default class Aeroporto {
         return this._estado;
     }
     
-    
     public get cidade() : string {
         return this._cidade;
     }
-    
 }

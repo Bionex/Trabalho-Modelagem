@@ -21,7 +21,7 @@ export default class Piloto extends Funcionario{
     isDisponivel(ini: Date, fim: Date) : boolean{
         var vendasFiltradas = this.vendas.filter(venda =>{
             var data = venda.dataHora;
-            if(data > ini && data < fim)
+            if(data >= ini && data <= fim)
                 return venda;
         })
         return vendasFiltradas.length == 0;

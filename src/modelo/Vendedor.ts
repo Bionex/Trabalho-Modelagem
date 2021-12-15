@@ -5,21 +5,21 @@ import Venda from "./Venda";
 
 //Vendedor.js
 export default class Vendedor extends Funcionario{
-    vendas: Array<Venda>
+    private vendas: Array<Venda>
     
     constructor(cpf:string, rg:string, nome:string,
                 endereço:string, telefone:string, salario:number,
-                data_contratação:Date, senha:string) {
-        super(cpf,rg,nome, endereço, telefone, salario, data_contratação, senha);
+               dataContratacao:Date, senha:string) {
+        super(cpf,rg,nome, endereço, telefone, salario,dataContratacao, senha);
         this.vendas = new Array()
     }
 
-    
+
     /**
      * Persiste uma venda no vendedor
      * @param v venda
      */
-    adicionar(v: Venda){
+   public adicionar(v: Venda){
         this.vendas.push(v)
     }
 
@@ -27,7 +27,7 @@ export default class Vendedor extends Funcionario{
      * Calcula quantas vendas um vendedor fez
      * @returns number
      */
-    obterQtdeVendas(): number{
+    public obterQtdeVendas(): number{
         return this.vendas.length
     }
 
@@ -37,12 +37,12 @@ export default class Vendedor extends Funcionario{
      * @param fim data final
      * @returns number
      */
-    obterQtdeVendasPerdidas(ini:Date, fim:Date): number{
+    public obterQtdeVendasPerdidas(ini:Date, fim:Date): number{
         let qtde = 0
         this.vendas.forEach(v => {
             let data = v.dataHora
             if (data > ini && data < fim && 
-                v.status == Status.EFETIVADA)
+                v.status == Status.CANCELADA)
                 qtde++
         })
 

@@ -18,7 +18,7 @@ function removeTime(date: Date): Date{
 function isEqual(dateA: Date, dateB: Date): boolean{
     let a = removeTime(dateA)
     let b = removeTime(dateB)
-    return a == b
+    return ((a.getTime() - b.getTime()) == 0)
 }
 
 export {isEqual}

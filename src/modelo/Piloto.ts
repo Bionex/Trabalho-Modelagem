@@ -4,8 +4,8 @@ import {isEqual} from "../Utils"
 
 //Piloto.js
 export default class Piloto extends Funcionario{
-    breve:string;
-    vendas:Array<Venda>
+    private breve:string;
+    private vendas:Array<Venda>
 
 
     constructor(cpf:string, rg:string, nome:string,
@@ -21,7 +21,7 @@ export default class Piloto extends Funcionario{
      * Persiste uma venda no piloto
      * @param v 
      */
-    adicionar(v: Venda){
+   public adicionar(v: Venda){
       this.vendas.push(v)
     }
 
@@ -30,8 +30,8 @@ export default class Piloto extends Funcionario{
      * @param data 
      * @returns boolean
      */
-    isDisponivel(data: Date): boolean{
+    public isDisponivel(data: Date): boolean{
         let v = this.vendas.find(v => isEqual(v.dataHora, data))
-        return v != undefined;
+        return v == undefined;
     }
 }

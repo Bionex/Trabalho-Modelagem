@@ -44,7 +44,7 @@ export default class Venda {
         return this._status
     }
     
-    gerarPDFContrato(){
+    public gerarPDFContrato(){
         //TODO
     }
 }

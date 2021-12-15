@@ -1,3 +1,5 @@
+import "dotenv/config"
+
 import Controle from "./src/Controle";
 var controle = new Controle()
 

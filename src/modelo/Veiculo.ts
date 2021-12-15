@@ -3,10 +3,10 @@ import {isEqual} from "../Utils"
 
 //Veiculo.js
 export default class Veiculo{
-    id: number;
-    nome:string
+    private id: number;
+    private nome:string
 
-    vendas: Array<Venda>
+    private vendas: Array<Venda>
 
     constructor(id:number, nome:string) {
         this.id = id;
@@ -19,7 +19,7 @@ export default class Veiculo{
      * Persiste uma venda em um veiculo
      * @param v venda
      */
-    adicionar(v:Venda){
+   public adicionar(v:Venda){
         this.vendas.push(v);
     }
 
@@ -28,8 +28,8 @@ export default class Veiculo{
      * @param date 
      * @returns boolean
      */
-    isDisponivel(date: Date): boolean {
+    public isDisponivel(date: Date): boolean {
         let v = this.vendas.find(v => isEqual(v.dataHora, date))
-        return v != undefined;
+        return v == undefined;
     }
 }

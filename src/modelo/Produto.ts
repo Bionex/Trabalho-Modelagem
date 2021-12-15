@@ -1,10 +1,10 @@
 import Venda from "./Venda"
 //Produto.js
 export default class Produto {
-    id:number;
-    nome:string;
+    private id:number;
+    private nome:string;
 
-    vendas:Array<Venda>
+    private vendas:Array<Venda>
 
     constructor(id:number, nome:string) {
         this.id = id;
@@ -17,7 +17,7 @@ export default class Produto {
      * Persiste uma venda no produto
      * @param v venda
      */
-    adicionar(v:Venda){
+   public adicionar(v:Venda){
         this.vendas.push(v)
     }
 }

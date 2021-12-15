@@ -7,21 +7,22 @@ import Venda from "./modelo/Venda";
 import Vendedor from "./modelo/Vendedor"
 import Piloto from "./modelo/Piloto"
 import { Status } from "./modelo/Status";
+import Gerente from "./modelo/Gerente";
 
 
 //Controle.js
 export default class Controle {
-    funcionarios: Map<string, Funcionario>;
-    vendas: Map<number, Venda>;
-    clientes: Map<string, Cliente>;
-    produtos: Map<number, Produto>;
-    aeroportos: Map<number, Aeroporto>;
-    veiculos: Map<number, Veiculo>;
-    login: Funcionario;
-    idAeroporto: number;
-    idProduto: number;
-    protocolo: number;
-    idVeiculo: number;
+    private funcionarios: Map<string, Funcionario>;
+    private vendas: Map<number, Venda>;
+    private clientes: Map<string, Cliente>;
+    private produtos: Map<number, Produto>;
+    private aeroportos: Map<number, Aeroporto>;
+    private veiculos: Map<number, Veiculo>;
+    private user: Funcionario;
+    private idAeroporto: number;
+    private idProduto: number;
+    private protocolo: number;
+    private idVeiculo: number;
 
 
     constructor() {
@@ -36,27 +37,64 @@ export default class Controle {
         this.protocolo = 0;
         this.idVeiculo = 0;
 
-        this.adicionarVendedor("cpf-vendedor1", "rg-vendedor1", "nome-vendedor1", 
-                               "end-vendedor1", "tel-vendedor1", 2000, 
-                               new Date(), "senha-vendedor1");
-
-        this.login = this.buscarFuncionario("cpf-vendedor1") as Funcionario;
+        // adicionando superuser
+        this.funcionarios.set(process.env.ROOT_USER, 
+                    new Gerente((process.env.ROOT_USER), '', 
+                                (process.env.ROOT_USER), '', '', 0, new Date(), 
+                                (process.env.ROOT_PASSWORD)))
     }
 
+
+
+    /**
+     * Persiste o usuario usando o sistema no momento para operações futuras,
+     * se login bem sucedido
+     * @param cpf 
+     * @param senha 
+     * @returns boolean
+     */
+    public login(cpf: string, senha: string): boolean{
+        if (this.funcionarios.has(cpf) &&
+            this.funcionarios.get(cpf).compararSenha(senha)){
+            this.user = this.funcionarios.get(cpf)
+            return true
+        }
+        else
+            return false
+    }    
 
     /**
      * Persiste vendedor na controle
      */
-    adicionarVendedor(cpf: string, rg: string, nome: string,
+    public adicionarVendedor(cpf: string, rg: string, nome: string,
         endereço: string, telefone: string, salario: number,
-        data_contratação: Date, senha: string) {
+       dataContratacao: Date, senha: string): boolean {
             
-        if (this.funcionarios.has(cpf))
+        if (this.funcionarios.has(cpf) || !(this.user instanceof Gerente))
             return false
         else {
             let vendedor = new Vendedor(cpf, rg, nome,
                 endereço, telefone, salario,
-                data_contratação, senha)
+               dataContratacao, senha)
+            this.funcionarios.set(cpf, vendedor)
+
+            return true
+        }
+    }
+
+    /**
+     * Persiste gerente na controle
+     */
+    public adicionarGerente(cpf: string, rg: string, nome: string,
+        endereço: string, telefone: string, salario: number,
+        dataContratacao: Date, senha: string): boolean {
+
+        if (this.funcionarios.has(cpf) || !(this.user instanceof Gerente))
+            return false
+        else {
+            let vendedor = new Vendedor(cpf, rg, nome,
+                endereço, telefone, salario,
+               dataContratacao, senha)
             this.funcionarios.set(cpf, vendedor)
 
             return true
@@ -66,16 +104,16 @@ export default class Controle {
     /**
      * Persiste piloto na controle
      */
-    adicionarPiloto(cpf: string, rg: string, nome: string,
+    public adicionarPiloto(cpf: string, rg: string, nome: string,
         endereço: string, telefone: string, salario: number,
-        data_contratação: Date, breve: string, senha: string): boolean {
+        dataContratacao: Date, breve: string, senha: string): boolean {
 
-        if (this.funcionarios.has(cpf))
+        if (this.funcionarios.has(cpf) || !(this.user instanceof Gerente))
             return false
         else {
             let piloto = new Piloto(cpf, rg, nome,
                 endereço, telefone, salario,
-                data_contratação, breve, senha)
+               dataContratacao, breve, senha)
             this.funcionarios.set(cpf, piloto)
 
             return true
@@ -87,16 +125,16 @@ export default class Controle {
      * @param cpf
      * @returns Funcionario | undefined
      */
-    buscarFuncionario(cpf: string): Funcionario | undefined {
+    public buscarFuncionario(cpf: string): Funcionario | undefined {
         return this.funcionarios.get(cpf)
     }
 
     /**
      * Obtem os funcionários que não tem voos agendados para aquele dia
      * @param data data do voo
-     * @returns Array<Funcionario> | undefined
+     * @returns Array<Piloto>
      */
-    listarPilotosDisponiveis(data: Date): Array<Funcionario> {
+    public listarPilotosDisponiveis(data: Date): Array<Piloto> {
         let funcionarios = Array.from(this.funcionarios.values())
         let pilotosDisponiveis = funcionarios.filter(funcionario => {
             if (typeof Piloto == typeof (funcionario))
@@ -104,15 +142,15 @@ export default class Controle {
                     return funcionario;
         })
 
-        return pilotosDisponiveis;
+        return (<Piloto[]> pilotosDisponiveis);
     }
 
     /**
      * Persiste um cliente na controle
      */
-    adicionarCliente(cpf: string, rg: string, nome: string,
+    public adicionarCliente(cpf: string, rg: string, nome: string,
         endereço: string, telefone: string,
-        indicacao: boolean) {
+        indicacao: boolean): boolean {
 
         if (this.clientes.has(cpf))
             return false
@@ -130,7 +168,7 @@ export default class Controle {
      * @param cpf
      * @returns Cliente | undefined
      */
-    buscarCliente(cpf: string): Cliente | undefined {
+    public buscarCliente(cpf: string): Cliente | undefined {
         return this.clientes.get(cpf)
     }
 
@@ -146,22 +184,36 @@ export default class Controle {
      * @param cpfsClientes lista contendo cpf dos clientes envolvidos
      * @param cpfPiloto piloto que irão transportar
      */
-    adicionarVenda(dataHora: Date, idOrigem: number, idDestino: number,
+    public adicionarVenda(dataHora: Date, idOrigem: number, idDestino: number,
         valor: number, duracao: number, idAeronave: number,
-        idProduto: number, cpfsClientes: Array<string>, cpfPiloto: string): boolean {
+        idProduto: number, cpfsClientes: Array<string>, cpfPiloto: string): string {
 
         let produto = this.buscarProduto(idProduto)
+        if (!produto)
+            return "O produto informado não existe"
         let veiculo = this.buscarVeiculo(idAeronave)
+        if (!veiculo)
+            return "O veículo informado não existe"
+        else if (!veiculo.isDisponivel(dataHora))
+            return "O veículo informado não está disponível"
         let origem = this.buscarAeroporto(idOrigem)
+        if (!origem)
+            return "O aeroporto origem informado não existe"
         let destino = this.buscarAeroporto(idDestino)
-        let piloto = this.buscarFuncionario(cpfPiloto.toString()) as Piloto
+        if (!destino)
+            return "O aeroporto destino informado não existe"
+        let piloto = this.buscarFuncionario(cpfPiloto) as Piloto
+        if (!piloto)
+            return "CPF informado para piloto não existe"
+        else if (!piloto.isDisponivel(dataHora))
+            return "O piloto informado não está disponível"
 
         let venda = new Venda(this.protocolo, dataHora, valor,
-                              duracao, false, Status.AGUARDANDO, produto!,
-                              veiculo!, origem!, destino!,
-                              piloto!);
+                              duracao, false, Status.AGUARDANDO, produto,
+                              veiculo, origem, destino,
+                              piloto);
 
-        (this.login as Vendedor).adicionar(venda)
+        (this.user as Vendedor).adicionar(venda)
         this.vendas.set(this.protocolo, venda)
 
         this.protocolo++
@@ -172,10 +224,10 @@ export default class Controle {
         });
 
         piloto.adicionar(venda)
-        veiculo!.adicionar(venda)
-        produto!.adicionar(venda)
+        veiculo.adicionar(venda)
+        produto.adicionar(venda)
 
-        return true
+        return "OK"
     }
 
     /**
@@ -183,7 +235,7 @@ export default class Controle {
      * @param protocolo
      * @returns Venda | undefined
      */
-    buscarVenda(protocolo: number): Venda | undefined {
+    public buscarVenda(protocolo: number): Venda | undefined {
         return this.vendas.get(protocolo);
     }
 
@@ -191,7 +243,7 @@ export default class Controle {
      * Persiste um veículo no controle
      * @param nome e.g. boeing 747
      */
-    adicionarVeiculo(nome: string): boolean {
+    public adicionarVeiculo(nome: string): boolean {
         let veiculo = new Veiculo(this.idVeiculo, nome)
         this.veiculos.set(this.idVeiculo, veiculo);
         this.idVeiculo++;
@@ -203,7 +255,7 @@ export default class Controle {
      * @param identificador
      * @returns Veiculo | undefined
      */
-    buscarVeiculo(id: number): Veiculo | undefined {
+    public buscarVeiculo(id: number): Veiculo | undefined {
         return this.veiculos.get(id)
     }
 
@@ -212,7 +264,7 @@ export default class Controle {
      * @param data data do voo
      * @returns Array<Veiculo> | undefined
      */
-    listarVeiculosDisponiveis(data: Date): Array<Veiculo> {
+    public listarVeiculosDisponiveis(data: Date): Array<Veiculo> {
         let veiculos = Array.from(this.veiculos.values());
         let veiculosDisponiveis = veiculos.filter(veiculo => {
             if (veiculo.isDisponivel(data))
@@ -226,12 +278,16 @@ export default class Controle {
      * Persiste um produto na controle
      * @param nome e.g. Salto
      */
-    adicionarProduto(nome: string): boolean {
-        let produto = new Produto(this.idProduto, nome)
-        this.produtos.set(this.idProduto, produto)
-        this.idProduto += 1
+   public adicionarProduto(nome: string): boolean {
+        if (!(this.user instanceof Gerente))
+            return false
+        else {
+            let produto = new Produto(this.idProduto, nome)
+            this.produtos.set(this.idProduto, produto)
+            this.idProduto += 1
 
-        return true
+            return true
+        }
     }
 
     /**
@@ -239,8 +295,16 @@ export default class Controle {
      * @param id codigo gerado pelo sistema para produto cadastrado
      * @returns Produto | undefined
      */
-    buscarProduto(id: number): Produto | undefined {
+    public buscarProduto(id: number): Produto | undefined {
         return this.produtos.get(id)
+    }
+
+    /**
+     * Retorna todos os produtos cadastrados
+     * @returns Array<Produto>
+     */
+    public listarProdutos(): Array<Produto> {
+        return Array.from(this.produtos.values())
     }
 
     /**
@@ -249,12 +313,16 @@ export default class Controle {
      * @param cidade e.g. Rio de Janeiro
      * @param estado e.g. RJ
      */
-    adicionarAeroporto(nome: string, cidade: string, estado: string): boolean {
-        let aeroporto = new Aeroporto(this.idAeroporto, nome, estado, cidade);
-        this.aeroportos.set(this.idAeroporto, aeroporto)
-        this.idAeroporto += 1
+    public adicionarAeroporto(nome: string, cidade: string, estado: string): boolean {
+        if (!(this.user instanceof Gerente))
+            return false
+        else {
+            let aeroporto = new Aeroporto(this.idAeroporto, nome, cidade, estado);
+            this.aeroportos.set(this.idAeroporto, aeroporto)
+            this.idAeroporto += 1
 
-        return true
+            return true
+        }
     }
 
     /**
@@ -262,7 +330,7 @@ export default class Controle {
      * @param id identificador gerado pelo sistema para aeroporto
      * @returns Aeroporto | undefined
      */
-    buscarAeroporto(id: number): Aeroporto | undefined {
+    public buscarAeroporto(id: number): Aeroporto | undefined {
         return this.aeroportos.get(id)
     }
 
@@ -271,9 +339,9 @@ export default class Controle {
      * @param nome substring do nome para filtro
      * @param cidade e.g. Rio de Janeiro
      * @param estado e.g. RJ
-     * @returns 
+     * @returns lista aeroportos
      */
-    listarAeroportos(nome: string, estado: string, cidade: string) {
+    public listarAeroportos(nome: string, cidade: string, estado: string): Array<Aeroporto> {
         let aeroportos = Array.from(this.aeroportos.values());
         aeroportos = aeroportos.filter(aeroporto => {
             if (aeroporto.nome.includes(nome) &&

@@ -39,10 +39,6 @@ export default class Venda {
     public get dataHora() : Date {
         return this._dataHora;
     }
-
-    public get status(): Status {
-        return this._status
-    }
     
     public gerarPDFContrato(){
         //TODO

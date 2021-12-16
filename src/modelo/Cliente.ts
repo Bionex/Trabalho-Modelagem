@@ -14,11 +14,6 @@ export default class Cliente extends Pessoa {
         this.vendas = new Array()
     }
 
-
-    public get isIndicado(): boolean{
-        return this.indicacao;
-    }
-
     /**
      * Persiste uma venda no cliente
      * @param v venda

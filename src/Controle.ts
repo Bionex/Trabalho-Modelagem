@@ -68,17 +68,19 @@ export default class Controle {
      */
     public adicionarVendedor(cpf: string, rg: string, nome: string,
         endereço: string, telefone: string, salario: number,
-       dataContratacao: Date, senha: string): boolean {
+       dataContratacao: Date, senha: string): string {
             
-        if (this.funcionarios.has(cpf) || !(this.user instanceof Gerente))
-            return false
+        if (this.funcionarios.has(cpf))
+            return "Funcionário já cadastrado"
+        else if(!(this.user instanceof Gerente))
+            return "Usuário logado não é gerente"
         else {
             let vendedor = new Vendedor(cpf, rg, nome,
                 endereço, telefone, salario,
                dataContratacao, senha)
             this.funcionarios.set(cpf, vendedor)
 
-            return true
+            return "OK"
         }
     }
 
@@ -87,17 +89,19 @@ export default class Controle {
      */
     public adicionarGerente(cpf: string, rg: string, nome: string,
         endereço: string, telefone: string, salario: number,
-        dataContratacao: Date, senha: string): boolean {
+        dataContratacao: Date, senha: string): string {
 
-        if (this.funcionarios.has(cpf) || !(this.user instanceof Gerente))
-            return false
+        if (this.funcionarios.has(cpf))
+            return "Funcionário já cadastrado"
+        else if(!(this.user instanceof Gerente))
+            return "Usuário logado não é gerente"
         else {
-            let vendedor = new Vendedor(cpf, rg, nome,
+            let gerente = new Gerente(cpf, rg, nome,
                 endereço, telefone, salario,
-               dataContratacao, senha)
-            this.funcionarios.set(cpf, vendedor)
+                dataContratacao, senha)
+            this.funcionarios.set(cpf, gerente)
 
-            return true
+            return "OK"
         }
     }
 
@@ -106,17 +110,19 @@ export default class Controle {
      */
     public adicionarPiloto(cpf: string, rg: string, nome: string,
         endereço: string, telefone: string, salario: number,
-        dataContratacao: Date, breve: string, senha: string): boolean {
+        dataContratacao: Date, breve: string, senha: string): string {
 
-        if (this.funcionarios.has(cpf) || !(this.user instanceof Gerente))
-            return false
+        if (this.funcionarios.has(cpf))
+            return "Funcionário já cadastrado"
+        else if(!(this.user instanceof Gerente))
+            return "Usuário logado não é gerente"
         else {
             let piloto = new Piloto(cpf, rg, nome,
                 endereço, telefone, salario,
                dataContratacao, breve, senha)
             this.funcionarios.set(cpf, piloto)
 
-            return true
+            return "OK"
         }
     }
 
@@ -137,7 +143,7 @@ export default class Controle {
     public listarPilotosDisponiveis(data: Date): Array<Piloto> {
         let funcionarios = Array.from(this.funcionarios.values())
         let pilotosDisponiveis = funcionarios.filter(funcionario => {
-            if (typeof Piloto == typeof (funcionario))
+            if (funcionario instanceof Piloto)
                 if ((funcionario as Piloto).isDisponivel(data))
                     return funcionario;
         })
@@ -150,16 +156,16 @@ export default class Controle {
      */
     public adicionarCliente(cpf: string, rg: string, nome: string,
         endereço: string, telefone: string,
-        indicacao: boolean): boolean {
+        indicacao: boolean): string {
 
         if (this.clientes.has(cpf))
-            return false
+            return "Cliente já cadastrado"
         else {
             let cliente = new Cliente(cpf, rg, nome,
                 endereço, telefone, indicacao)
             this.clientes.set(cpf, cliente)
 
-            return true
+            return "OK"
         }
     }
 
@@ -207,6 +213,9 @@ export default class Controle {
             return "CPF informado para piloto não existe"
         else if (!piloto.isDisponivel(dataHora))
             return "O piloto informado não está disponível"
+        for(let cpf of cpfsClientes)
+            if (this.buscarCliente(cpf) == undefined)
+                return `O cliente de cpf '${cpf}' não existe`
 
         let venda = new Venda(this.protocolo, dataHora, valor,
                               duracao, false, Status.AGUARDANDO, produto,
@@ -243,11 +252,11 @@ export default class Controle {
      * Persiste um veículo no controle
      * @param nome e.g. boeing 747
      */
-    public adicionarVeiculo(nome: string): boolean {
+    public adicionarVeiculo(nome: string): string {
         let veiculo = new Veiculo(this.idVeiculo, nome)
         this.veiculos.set(this.idVeiculo, veiculo);
         this.idVeiculo++;
-        return true
+        return "OK"
     }
 
     /**
@@ -278,15 +287,15 @@ export default class Controle {
      * Persiste um produto na controle
      * @param nome e.g. Salto
      */
-   public adicionarProduto(nome: string): boolean {
+    public adicionarProduto(nome: string): string {
         if (!(this.user instanceof Gerente))
-            return false
+            return "Usuário logado não é gerente"
         else {
             let produto = new Produto(this.idProduto, nome)
             this.produtos.set(this.idProduto, produto)
             this.idProduto += 1
 
-            return true
+            return "OK"
         }
     }
 
@@ -313,15 +322,15 @@ export default class Controle {
      * @param cidade e.g. Rio de Janeiro
      * @param estado e.g. RJ
      */
-    public adicionarAeroporto(nome: string, cidade: string, estado: string): boolean {
+    public adicionarAeroporto(nome: string, cidade: string, estado: string): string {
         if (!(this.user instanceof Gerente))
-            return false
+            return "Usuário logado não é gerente"
         else {
             let aeroporto = new Aeroporto(this.idAeroporto, nome, cidade, estado);
             this.aeroportos.set(this.idAeroporto, aeroporto)
             this.idAeroporto += 1
 
-            return true
+            return "OK"
         }
     }
 

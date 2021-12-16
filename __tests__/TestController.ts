@@ -271,6 +271,55 @@ describe("Produto", () => {
     })
 })
 
+describe("Veiculo", () => {
+
+	let controle
+
+	beforeEach(() => {
+		controle = new Controle()
+	})
+
+    it("Adicionando veiculo", () => {
+        expect(controle.adicionarVeiculo("Test")).toBe("OK")
+    })
+
+    it("Listar veiculos disponiveis", () => {
+        controle.adicionarVeiculo("Test")
+        expect(controle.listarVeiculosDisponiveis(new Date())).toHaveLength(1)
+    })
+
+    it("Não listar veículo indisponível", () => {
+        controle.adicionarVeiculo("TestA")
+        controle.adicionarVeiculo("TestB")
+        jest.spyOn(controle.listarVeiculosDisponiveis(new Date())[0], 'isDisponivel')
+            .mockImplementation(() => false)
+        expect(controle.listarVeiculosDisponiveis(new Date())).toHaveLength(1)
+    })
+
+    it("Buscar veiculo", () => {
+        controle.adicionarVeiculo("Test")
+        expect(controle.buscarVeiculo(
+            controle.listarVeiculosDisponiveis(new Date())[0].id)).not.toBeUndefined()
+    })
+
+    it("Buscar veiculo inexistente", () => {
+        expect(controle.buscarVeiculo("test")).toBeUndefined()
+    })
+})
+
+describe("Aeroporto", () => {
+
+	let controle
+
+	beforeEach(() => {
+		controle = new Controle()
+	})
+
+    it("Adicionar aeroporto", () => {
+        // TODO
+    })
+})
+
 describe("Login", () => {
 
 	let controle

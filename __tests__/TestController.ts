@@ -316,7 +316,29 @@ describe("Aeroporto", () => {
 	})
 
     it("Adicionar aeroporto", () => {
-        // TODO
+        controle.login(process.env.ROOT_USER, process.env.ROOT_PASSWORD)
+        expect(controle.adicionarAeroporto("T", "C", "E")).toBe("OK")
+    })
+
+    it("Adicionar aeroporto sem ser admin", () => {
+        expect(controle.adicionarAeroporto("T", "C", "E")).toMatch(/não.*gerente/)
+    })
+
+    it("Listar aeroportos disponiveis", () => {
+        controle.login(process.env.ROOT_USER, process.env.ROOT_PASSWORD)
+        controle.adicionarAeroporto("T", "C", "E")
+        expect(controle.listarAeroportos('', '', '')).toHaveLength(1)
+    })
+
+    it("Buscar aeroporto", () => {
+        controle.login(process.env.ROOT_USER, process.env.ROOT_PASSWORD)
+        controle.adicionarAeroporto("T", "C", "E")
+        expect(controle.buscarAeroporto(
+            controle.listarAeroportos('', '', '')[0].id)).not.toBeUndefined()
+    })
+
+    it("Buscar aeroporto inexistente", () => {
+        expect(controle.buscarAeroporto(42)).toBeUndefined()
     })
 })
 
@@ -337,7 +359,7 @@ describe("Login", () => {
     })
 })
 
-describe("Adicionar venda", () => {
+describe("Venda", () => {
     let controle = undefined
     let veiculoId
     let produtoId
@@ -379,13 +401,13 @@ describe("Adicionar venda", () => {
         veiculoId = controle.listarVeiculosDisponiveis(data)[0].id
     })
 
-    it("Caso correto", () => {
+    it("Adicionar venda", () => {
         expect(controle.adicionarVenda(data, origemId, destinoId, 1000.0, 8,
                             veiculoId, produtoId, clienteId, pilotoId)).toBe("OK")
         expect(controle.buscarCliente(clienteId[0]).vendas[0].dataHora).toBe(data)
     })
 
-    it("Multiplos clientes", () => {
+    it("Adicionar venda com multiplos clientes", () => {
         let localCpf = '322.333.444-55'
         controle.adicionarCliente(localCpf, '11.222.333-4', 'test',
                                  'Rua X', '(21) 33333-2222', 20000, new Date(), false)
@@ -461,5 +483,17 @@ describe("Adicionar venda", () => {
         expect(controle.adicionarVenda(data, origemId, 42, 1000.0, 8,
                             veiculoId, produtoId, ['erro'], pilotoId))
                             .toMatch(/destino.*não existe/)
+    })
+
+    it("Buscar venda", () => {
+        controle.adicionarVenda(data, origemId, destinoId, 1000.0, 8,
+                                veiculoId, produtoId, clienteId, pilotoId)
+        expect(controle.buscarVenda(
+                controle.buscarCliente(clienteId[0]).vendas[0].protocolo))
+            .toBeDefined()
+    })
+
+    it("Buscar venda inexistente", () => {
+        expect(controle.buscarVenda(42)).toBeUndefined()
     })
 })

@@ -39,6 +39,10 @@ export default class Venda {
     public get dataHora() : Date {
         return this._dataHora;
     }
+
+    public get protocolo() : number {
+        return this._protocolo
+    }
     
     public gerarPDFContrato(){
         //TODO

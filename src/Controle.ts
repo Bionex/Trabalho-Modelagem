@@ -144,7 +144,7 @@ export default class Controle {
     public listarPilotosDisponiveis(data: Date): Array<Piloto> {
         let funcionarios = Array.from(this.funcionarios.values())
         let pilotosDisponiveis = funcionarios.filter(funcionario => {
-            if (this.user.hasPermission(Permissao.LISTA_PILOTOS))
+            if (funcionario instanceof Piloto)
                 if ((funcionario as Piloto).isDisponivel(data))
                     return funcionario;
         })
@@ -289,9 +289,9 @@ export default class Controle {
      * @param nome e.g. Salto
      */
     public adicionarProduto(nome: string): string {
-        if (!(this.user.hasPermission(Permissao.ADICIONA_PRODUTO))) {
+        if (this.user == undefined ||
+            !(this.user.hasPermission(Permissao.ADICIONA_PRODUTO)))
             return "Usuário logado não é gerente"
-        }
         let produto = new Produto(this.idProduto, nome)
         this.produtos.set(this.idProduto, produto)
         this.idProduto += 1
@@ -322,9 +322,8 @@ export default class Controle {
      * @param estado e.g. RJ
      */
     public adicionarAeroporto(nome: string, cidade: string, estado: string): string {
-        if (!(this.user.hasPermission(Permissao.ADICIONA_AEROPORTO))) {
+        if (!this.user || !(this.user.hasPermission(Permissao.ADICIONA_AEROPORTO))) 
             return "Usuário logado não é gerente"
-        }        
         let aeroporto = new Aeroporto(this.idAeroporto, nome, cidade, estado);
         this.aeroportos.set(this.idAeroporto, aeroporto)
         this.idAeroporto += 1

@@ -1,30 +1,35 @@
 import Venda from "./Venda";
+import {isEqual} from "../Utils"
 
 //Veiculo.js
 export default class Veiculo{
-    identificador: string;
-    nome:string
+    private id: number;
+    private nome:string
 
-    vendas: Array<Venda>
+    private vendas: Array<Venda>
 
-    constructor(identificador:string, nome:string) {
-        this.identificador = identificador;
+    constructor(id:number, nome:string) {
+        this.id = id;
         this.nome = nome;
 
         this.vendas = new Array()
     }
 
-    adicionar(v:Venda){
+    /**
+     * Persiste uma venda em um veiculo
+     * @param v venda
+     */
+   public adicionar(v:Venda){
         this.vendas.push(v);
     }
 
-    isDisponivel(ini: Date, fim: Date): boolean {
-        var vendasFiltradas = this.vendas.filter(venda =>{
-            var data = venda.dataHora;
-            if(data >= ini && data <= fim)
-                return venda;
-        })
-
-        return vendasFiltradas.length == 0;
+    /**
+     * Verifica se uma aeronave não está ocupada em determinado dia
+     * @param date 
+     * @returns boolean
+     */
+    public isDisponivel(date: Date): boolean {
+        let v = this.vendas.find(v => isEqual(v.dataHora, date))
+        return v == undefined;
     }
 }

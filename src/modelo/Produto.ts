@@ -19,5 +19,5 @@ export default class Produto {
      */
    public adicionar(v:Venda){
         this.vendas.push(v)
-    }
+   }
 }

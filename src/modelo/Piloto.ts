@@ -14,7 +14,7 @@ export default class Piloto extends Funcionario{
         super(cpf,rg,nome, endereço, telefone, salario, dataContratação, senha);
         this.breve = breve;
 
-        this.vendas = new Array()
+        this.vendas = new Array();
     }
 
     /**

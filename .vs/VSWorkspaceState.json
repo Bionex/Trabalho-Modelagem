@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\.github\\workflows",
+    "\\src",
+    "\\src\\modelo",
+    "\\__tests__"
+  ],
+  "SelectedNode": "\\src\\modelo\\Cliente.ts",
+  "PreviewInSolutionExplorer": false
+}

@@ -8,6 +8,7 @@ import Vendedor from "./modelo/Vendedor"
 import Piloto from "./modelo/Piloto"
 import { Status } from "./modelo/Status";
 import Gerente from "./modelo/Gerente";
+import { Permissao } from "./modelo/Permissao";
 
 
 //Controle.js
@@ -72,7 +73,7 @@ export default class Controle {
             
         if (this.funcionarios.has(cpf))
             return "Funcionário já cadastrado"
-        else if(!(this.user instanceof Gerente))
+        else if (!(this.user.hasPermission(Permissao.ADICIONA_VENDEDOR)))
             return "Usuário logado não é gerente"
         else {
             let vendedor = new Vendedor(cpf, rg, nome,
@@ -93,7 +94,7 @@ export default class Controle {
 
         if (this.funcionarios.has(cpf))
             return "Funcionário já cadastrado"
-        else if(!(this.user instanceof Gerente))
+        else if (!(this.user.hasPermission(Permissao.ADICIONA_GERENTE)))
             return "Usuário logado não é gerente"
         else {
             let gerente = new Gerente(cpf, rg, nome,
@@ -114,7 +115,7 @@ export default class Controle {
 
         if (this.funcionarios.has(cpf))
             return "Funcionário já cadastrado"
-        else if(!(this.user instanceof Gerente))
+        else if (!(this.user.hasPermission(Permissao.ADICIONA_PILOTO)))
             return "Usuário logado não é gerente"
         else {
             let piloto = new Piloto(cpf, rg, nome,
@@ -143,7 +144,7 @@ export default class Controle {
     public listarPilotosDisponiveis(data: Date): Array<Piloto> {
         let funcionarios = Array.from(this.funcionarios.values())
         let pilotosDisponiveis = funcionarios.filter(funcionario => {
-            if (funcionario instanceof Piloto)
+            if (this.user.hasPermission(Permissao.LISTA_PILOTOS))
                 if ((funcionario as Piloto).isDisponivel(data))
                     return funcionario;
         })
@@ -288,15 +289,13 @@ export default class Controle {
      * @param nome e.g. Salto
      */
     public adicionarProduto(nome: string): string {
-        if (!(this.user instanceof Gerente))
+        if (!(this.user.hasPermission(Permissao.ADICIONA_PRODUTO))) {
             return "Usuário logado não é gerente"
-        else {
-            let produto = new Produto(this.idProduto, nome)
-            this.produtos.set(this.idProduto, produto)
-            this.idProduto += 1
-
-            return "OK"
         }
+        let produto = new Produto(this.idProduto, nome)
+        this.produtos.set(this.idProduto, produto)
+        this.idProduto += 1
+        return "OK"
     }
 
     /**
@@ -323,15 +322,13 @@ export default class Controle {
      * @param estado e.g. RJ
      */
     public adicionarAeroporto(nome: string, cidade: string, estado: string): string {
-        if (!(this.user instanceof Gerente))
+        if (!(this.user.hasPermission(Permissao.ADICIONA_AEROPORTO))) {
             return "Usuário logado não é gerente"
-        else {
-            let aeroporto = new Aeroporto(this.idAeroporto, nome, cidade, estado);
-            this.aeroportos.set(this.idAeroporto, aeroporto)
-            this.idAeroporto += 1
-
-            return "OK"
-        }
+        }        
+        let aeroporto = new Aeroporto(this.idAeroporto, nome, cidade, estado);
+        this.aeroportos.set(this.idAeroporto, aeroporto)
+        this.idAeroporto += 1
+        return "OK"
     }
 
     /**

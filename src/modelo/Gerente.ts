@@ -12,6 +12,6 @@ export default class Gerente extends Funcionario{
         this.permissoes.push(
             Permissao.ADICIONA_VENDEDOR, Permissao.ADICIONA_GERENTE,
             Permissao.ADICIONA_PILOTO, Permissao.ADICIONA_AEROPORTO,
-            Permissao.LISTA_PILOTOS, Permissao.ADICIONA_PRODUTO);
+            Permissao.ADICIONA_PRODUTO);
     }
 }

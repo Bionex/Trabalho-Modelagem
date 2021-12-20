@@ -73,7 +73,7 @@ export default class Controle {
             
         if (this.funcionarios.has(cpf))
             return "Funcionário já cadastrado"
-        else if (!(this.user.hasPermission(Permissao.ADICIONA_VENDEDOR)))
+        else if (!this.user || !(this.user.hasPermission(Permissao.ADICIONA_VENDEDOR)))
             return "Usuário logado não é gerente"
         else {
             let vendedor = new Vendedor(cpf, rg, nome,
@@ -94,7 +94,7 @@ export default class Controle {
 
         if (this.funcionarios.has(cpf))
             return "Funcionário já cadastrado"
-        else if (!(this.user.hasPermission(Permissao.ADICIONA_GERENTE)))
+        else if (!this.user || !(this.user.hasPermission(Permissao.ADICIONA_GERENTE)))
             return "Usuário logado não é gerente"
         else {
             let gerente = new Gerente(cpf, rg, nome,
@@ -115,7 +115,7 @@ export default class Controle {
 
         if (this.funcionarios.has(cpf))
             return "Funcionário já cadastrado"
-        else if (!(this.user.hasPermission(Permissao.ADICIONA_PILOTO)))
+        else if (!this.user || !(this.user.hasPermission(Permissao.ADICIONA_PILOTO)))
             return "Usuário logado não é gerente"
         else {
             let piloto = new Piloto(cpf, rg, nome,
@@ -289,8 +289,7 @@ export default class Controle {
      * @param nome e.g. Salto
      */
     public adicionarProduto(nome: string): string {
-        if (this.user == undefined ||
-            !(this.user.hasPermission(Permissao.ADICIONA_PRODUTO)))
+        if (!this.user || !(this.user.hasPermission(Permissao.ADICIONA_PRODUTO)))
             return "Usuário logado não é gerente"
         let produto = new Produto(this.idProduto, nome)
         this.produtos.set(this.idProduto, produto)

@@ -419,7 +419,7 @@ describe("Venda", () => {
 
     it("Piloto não existente", () => {
         expect(controle.adicionarVenda(data, origemId, destinoId, 1000.0, 8,
-                            veiculoId, produtoId, clienteId, '')).toMatch(/piloto.*não existe/)
+                            veiculoId, produtoId, clienteId, '')).toMatch(/Piloto.*não existe/)
     })
 
     it("Piloto indisponivel", () => {
@@ -429,19 +429,19 @@ describe("Venda", () => {
         let localVeiculoId = controle.listarVeiculosDisponiveis(data)[0].id
         expect(controle.adicionarVenda(data, origemId, destinoId, 1000.0, 8,
                             localVeiculoId, produtoId, clienteId, pilotoId))
-                            .toMatch(/piloto.*não está disponível/)
+                            .toMatch(/Piloto.*não disponível/)
     })
 
     it("Produto não existente", () => {
         expect(controle.adicionarVenda(data, origemId, destinoId, 1000.0, 8,
                             veiculoId, 42, clienteId, ''))
-                            .toMatch(/produto.*não existe/)
+                            .toMatch(/Produto.*não existe/)
     })
 
     it("Veículo não existente", () => {
         expect(controle.adicionarVenda(data, origemId, destinoId, 1000.0, 8,
                             42, produtoId, clienteId, pilotoId))
-                            .toMatch(/veículo.*não existe/)
+                            .toMatch(/Veículo.*não existe/)
     })
 
     it("Veículo indisponivel", () => {
@@ -452,19 +452,19 @@ describe("Venda", () => {
                                  '11111', '123')
         expect(controle.adicionarVenda(data, origemId, destinoId, 1000.0, 8,
                             veiculoId, produtoId, clienteId, pilotoId))
-                            .toMatch(/veículo.*não está disponível/)
+                            .toMatch(/Veículo.*não disponível/)
     })
 
     it("Veículo não existente", () => {
         expect(controle.adicionarVenda(data, origemId, destinoId, 1000.0, 8,
                             42, produtoId, clienteId, pilotoId))
-                            .toMatch(/veículo.*não existe/)
+                            .toMatch(/Veículo.*não existe/)
     })
 
     it("Cliente não existente", () => {
         expect(controle.adicionarVenda(data, origemId, destinoId, 1000.0, 8,
                             veiculoId, produtoId, ['erro'], pilotoId))
-                            .toMatch(/cliente.*não existe/)
+                            .toMatch(/Cliente.*não existe/)
     })
 
     it("Um dos multiples cliente não existente", () => {

@@ -9,6 +9,8 @@ import Piloto from "./modelo/Piloto"
 import { Status } from "./modelo/Status";
 import Gerente from "./modelo/Gerente";
 import { Permissao } from "./modelo/Permissao";
+import util from "util"
+import Respostas from "./Respostas";
 
 
 //Controle.js
@@ -72,16 +74,16 @@ export default class Controle {
        dataContratacao: Date, senha: string): string {
             
         if (this.funcionarios.has(cpf))
-            return "Funcionário já cadastrado"
+            return util.format(Respostas.JA_CADASTRADO, "Funcionário")
         else if (!this.user || !(this.user.hasPermission(Permissao.ADICIONA_VENDEDOR)))
-            return "Usuário logado não é gerente"
+            return Respostas.NAO_E_GERENTE
         else {
             let vendedor = new Vendedor(cpf, rg, nome,
                 endereço, telefone, salario,
                dataContratacao, senha)
             this.funcionarios.set(cpf, vendedor)
 
-            return "OK"
+            return Respostas.OK
         }
     }
 
@@ -93,16 +95,16 @@ export default class Controle {
         dataContratacao: Date, senha: string): string {
 
         if (this.funcionarios.has(cpf))
-            return "Funcionário já cadastrado"
+            return util.format(Respostas.JA_CADASTRADO, "Funcionário")
         else if (!this.user || !(this.user.hasPermission(Permissao.ADICIONA_GERENTE)))
-            return "Usuário logado não é gerente"
+            return Respostas.NAO_E_GERENTE
         else {
             let gerente = new Gerente(cpf, rg, nome,
                 endereço, telefone, salario,
                 dataContratacao, senha)
             this.funcionarios.set(cpf, gerente)
 
-            return "OK"
+            return Respostas.OK
         }
     }
 
@@ -114,16 +116,16 @@ export default class Controle {
         dataContratacao: Date, breve: string, senha: string): string {
 
         if (this.funcionarios.has(cpf))
-            return "Funcionário já cadastrado"
+            return util.format(Respostas.JA_CADASTRADO, "Funcionário")
         else if (!this.user || !(this.user.hasPermission(Permissao.ADICIONA_PILOTO)))
-            return "Usuário logado não é gerente"
+            return "Usuário não é gerente"
         else {
             let piloto = new Piloto(cpf, rg, nome,
                 endereço, telefone, salario,
                dataContratacao, breve, senha)
             this.funcionarios.set(cpf, piloto)
 
-            return "OK"
+            return Respostas.OK
         }
     }
 
@@ -160,13 +162,13 @@ export default class Controle {
         indicacao: boolean): string {
 
         if (this.clientes.has(cpf))
-            return "Cliente já cadastrado"
+            return util.format(Respostas.JA_CADASTRADO, "Cliente")
         else {
             let cliente = new Cliente(cpf, rg, nome,
                 endereço, telefone, indicacao)
             this.clientes.set(cpf, cliente)
 
-            return "OK"
+            return Respostas.OK
         }
     }
 
@@ -197,26 +199,26 @@ export default class Controle {
 
         let produto = this.buscarProduto(idProduto)
         if (!produto)
-            return "O produto informado não existe"
+            return util.format(Respostas.NAO_EXISTE, "Produto")
         let veiculo = this.buscarVeiculo(idAeronave)
         if (!veiculo)
-            return "O veículo informado não existe"
+            return util.format(Respostas.NAO_EXISTE, "Veículo")
         else if (!veiculo.isDisponivel(dataHora))
-            return "O veículo informado não está disponível"
+            return util.format(Respostas.NAO_DISPONIVEL, "Veículo")
         let origem = this.buscarAeroporto(idOrigem)
         if (!origem)
-            return "O aeroporto origem informado não existe"
+            return util.format(Respostas.NAO_EXISTE, "Aeroporto origem")
         let destino = this.buscarAeroporto(idDestino)
         if (!destino)
-            return "O aeroporto destino informado não existe"
+            return util.format(Respostas.NAO_EXISTE, "Aeroporto destino")
         let piloto = this.buscarFuncionario(cpfPiloto) as Piloto
         if (!piloto)
-            return "CPF informado para piloto não existe"
+            return util.format(Respostas.NAO_EXISTE, "Piloto")
         else if (!piloto.isDisponivel(dataHora))
-            return "O piloto informado não está disponível"
+            return util.format(Respostas.NAO_DISPONIVEL, "Piloto")
         for(let cpf of cpfsClientes)
             if (this.buscarCliente(cpf) == undefined)
-                return `O cliente de cpf '${cpf}' não existe`
+            return util.format(Respostas.NAO_EXISTE, `Cliente ${cpf}`)  
 
         let venda = new Venda(this.protocolo, dataHora, valor,
                               duracao, false, Status.AGUARDANDO, produto,
@@ -237,7 +239,7 @@ export default class Controle {
         veiculo.adicionar(venda)
         produto.adicionar(venda)
 
-        return "OK"
+        return Respostas.OK
     }
 
     /**
@@ -257,7 +259,7 @@ export default class Controle {
         let veiculo = new Veiculo(this.idVeiculo, nome)
         this.veiculos.set(this.idVeiculo, veiculo);
         this.idVeiculo++;
-        return "OK"
+        return Respostas.OK
     }
 
     /**
@@ -290,11 +292,11 @@ export default class Controle {
      */
     public adicionarProduto(nome: string): string {
         if (!this.user || !(this.user.hasPermission(Permissao.ADICIONA_PRODUTO)))
-            return "Usuário logado não é gerente"
+            return Respostas.NAO_E_GERENTE
         let produto = new Produto(this.idProduto, nome)
         this.produtos.set(this.idProduto, produto)
         this.idProduto += 1
-        return "OK"
+        return Respostas.OK
     }
 
     /**
@@ -322,11 +324,11 @@ export default class Controle {
      */
     public adicionarAeroporto(nome: string, cidade: string, estado: string): string {
         if (!this.user || !(this.user.hasPermission(Permissao.ADICIONA_AEROPORTO))) 
-            return "Usuário logado não é gerente"
+            return Respostas.NAO_E_GERENTE
         let aeroporto = new Aeroporto(this.idAeroporto, nome, cidade, estado);
         this.aeroportos.set(this.idAeroporto, aeroporto)
         this.idAeroporto += 1
-        return "OK"
+        return Respostas.OK
     }
 
     /**

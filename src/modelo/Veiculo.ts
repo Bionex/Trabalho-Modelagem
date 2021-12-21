@@ -3,16 +3,24 @@ import {isEqual} from "../Utils"
 
 //Veiculo.js
 export default class Veiculo{
-    private id: number;
-    private nome:string
+    private _id: number;
+    private _nome:string
 
     private vendas: Array<Venda>
 
     constructor(id:number, nome:string) {
-        this.id = id;
-        this.nome = nome;
+        this._id = id;
+        this._nome = nome;
 
         this.vendas = new Array()
+    }
+
+    public get id() {
+        return this._id
+    }
+
+    public get nome() {
+        return this._nome
     }
 
     /**
